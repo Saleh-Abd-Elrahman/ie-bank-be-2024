@@ -26,8 +26,10 @@ def skull():
 
 @app.route('/accounts', methods=['POST'])
 def create_account():
-    print('Content-Type:', request.headers.get('Content-Type'))
-    print('Request JSON:', request.get_json())
+    print("Headers:", request.headers)
+    print("Content-Type:", request.headers.get('Content-Type'))
+    print("Raw Data:", request.data)
+    print("JSON Data:", request.get_json(silent=True))
     name = request.json['name']
     currency = request.json['currency']
     country = request.json['country']
