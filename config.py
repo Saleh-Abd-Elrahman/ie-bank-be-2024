@@ -4,8 +4,8 @@ import os
 load_dotenv()
 
 class Config(object):
-    SECRET_KEY = 'this-really-needs-to-be-changed'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEBUG = False
 
 class LocalConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///local.db'
