@@ -1,6 +1,8 @@
 from flask import Flask, request
+from flask import jsonify
 from iebank_api import db, app
 from iebank_api.models import Account
+import logging
 
 @app.route('/')
 def hello_world():
@@ -24,9 +26,12 @@ def skull():
 
 @app.route('/accounts', methods=['POST'])
 def create_account():
+    print('Content-Type:', request.headers.get('Content-Type'))
+    print('Request JSON:', request.get_json())
     name = request.json['name']
     currency = request.json['currency']
-    account = Account(name, currency)
+    country = request.json['country']
+    account = Account(name, currency, country)
     db.session.add(account)
     db.session.commit()
     return format_account(account)
@@ -62,6 +67,7 @@ def format_account(account):
         'account_number': account.account_number,
         'balance': account.balance,
         'currency': account.currency,
+        'country': account.country,
         'status': account.status,
         'created_at': account.created_at
     }
