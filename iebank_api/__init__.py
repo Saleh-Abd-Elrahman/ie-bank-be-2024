@@ -25,7 +25,7 @@ else:
 
 db = SQLAlchemy(app)
 
-from iebank_api.models import Account
+from iebank_api.models import Accounts
 
 with app.app_context():
     db.create_all()

@@ -2,7 +2,7 @@ from iebank_api import db
 from datetime import datetime
 import string, random
 
-class Account(db.Model):
+class Accounts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), nullable=False)
     account_number = db.Column(db.String(20), nullable=False, unique=True)

@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask import jsonify
 from iebank_api import db, app
-from iebank_api.models import Account
+from iebank_api.models import Accounts
 import logging
 
 @app.route('/')
@@ -33,31 +33,31 @@ def create_account():
     name = request.json['name']
     currency = request.json['currency']
     country = request.json['country']
-    account = Account(name, currency, country)
+    account = Accounts(name, currency, country)
     db.session.add(account)
     db.session.commit()
     return format_account(account)
 
 @app.route('/accounts', methods=['GET'])
 def get_accounts():
-    accounts = Account.query.all()
+    accounts = Accounts.query.all()
     return {'accounts': [format_account(account) for account in accounts]}
 
 @app.route('/accounts/<int:id>', methods=['GET'])
 def get_account(id):
-    account = Account.query.get(id)
+    account = Accounts.query.get(id)
     return format_account(account)
 
 @app.route('/accounts/<int:id>', methods=['PUT'])
 def update_account(id):
-    account = Account.query.get(id)
+    account = Accounts.query.get(id)
     account.name = request.json['name']
     db.session.commit()
     return format_account(account)
 
 @app.route('/accounts/<int:id>', methods=['DELETE'])
 def delete_account(id):
-    account = Account.query.get(id)
+    account = Accounts.query.get(id)
     db.session.delete(account)
     db.session.commit()
     return format_account(account)
