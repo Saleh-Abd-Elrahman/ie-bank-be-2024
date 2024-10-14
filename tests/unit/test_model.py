@@ -1,4 +1,4 @@
-from iebank_api.models import Account
+from iebank_api.models import Accounts
 import pytest
 
 def test_create_account():
@@ -7,7 +7,7 @@ def test_create_account():
     WHEN a new Account is created
     THEN check the name, account_number, balance, currency, status and created_at fields are defined correctly
     """
-    account = Account('John Doe', '€', 'Spain')
+    account = Accounts('John Doe', '€', 'Spain')
     assert account.name == 'John Doe'
     assert account.currency == '€'
     assert account.country == 'Spain'

@@ -45,19 +45,19 @@ def get_accounts():
 
 @app.route('/accounts/<int:id>', methods=['GET'])
 def get_account(id):
-    account = Accounts.query.get(id)
+    account = db.session.get(Accounts, id)
     return format_account(account)
 
 @app.route('/accounts/<int:id>', methods=['PUT'])
 def update_account(id):
-    account = Accounts.query.get(id)
+    account = db.session.get(Accounts, id)
     account.name = request.json['name']
     db.session.commit()
     return format_account(account)
 
 @app.route('/accounts/<int:id>', methods=['DELETE'])
 def delete_account(id):
-    account = Accounts.query.get(id)
+    account = db.session.get(Accounts, id)
     db.session.delete(account)
     db.session.commit()
     return format_account(account)
