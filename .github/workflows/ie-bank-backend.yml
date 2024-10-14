@@ -11,7 +11,8 @@ permissions:
   id-token: write
 
 env:
-  BACKEND_WEBAPP_DEV: aguadamillas-be-dev
+  BACKEND_WEBAPP_DEV: sabdelrahman-be-dev
+  BACKEND_WEBAPP_UAT: sabdelrahman-be-uat
 
 jobs:
   build:
@@ -21,9 +22,9 @@ jobs:
       ENV: ghci
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python 3.11
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: "3.11"
     - name: Upgrade pip
@@ -43,13 +44,14 @@ jobs:
       run: |
         python -m pytest --cov=iebank_api -v
     - name: Upload artifact for deployment jobs
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: python-app
         path: |
           . 
 
-  deploy:
+  deploy-dev:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -58,19 +60,45 @@ jobs:
 
     steps:
     - name: Download artifact from build job
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: python-app
         path: .
     
-    - uses: azure/login@v1
+    - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v2
+    - name: 'Deploy to Azure Web App Development'
+      uses: azure/webapps-deploy@v3
       id: deploy-to-webapp
       with:
         app-name: ${{ env.BACKEND_WEBAPP_DEV }}
         package: .
-    
+
+        
+  deploy-uat:
+    if: github.event.pull_request.base.ref == 'main' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'UAT'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v4
+      with:
+        name: python-app
+        path: .
+
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Deploy to Azure Web App UAT'
+      uses: azure/webapps-deploy@v3
+      id: deploy-to-webapp
+      with:
+        app-name: ${{ env.BACKEND_WEBAPP_UAT }}
+        package: .
