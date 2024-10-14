@@ -11,8 +11,8 @@ permissions:
   id-token: write
 
 env:
-  BACKEND_WEBAPP_DEV: sabdelrahman1-be-dev
-  BACKEND_WEBAPP_UAT: sabdelrahman2-be-uat
+  BACKEND_WEBAPP_DEV: sabdelrahman-be-dev
+  BACKEND_WEBAPP_UAT: sabdelrahman-be-uat
 
 jobs:
   build:
