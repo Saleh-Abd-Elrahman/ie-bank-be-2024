@@ -12,7 +12,7 @@ permissions:
 
 env:
   BACKEND_WEBAPP_DEV: sabdelrahman-be-dev
-  BACKEND_WEBAPP_UAT: sabdelrahman1-be-uat
+  BACKEND_WEBAPP_UAT: sabdelrahman-be-uat
 
 jobs:
   build:
