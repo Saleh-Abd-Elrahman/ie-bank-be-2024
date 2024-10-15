@@ -6,8 +6,7 @@ from sqlalchemy import text
 import os
 
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://iebankdbadmin:IE.Bank.DB.Admin.Pa$$@sabdelrahman-dbrsv-dev/sabdelrahman-be-dev'
+app.config.from_object('config.UATConfig')
 
 # Select environment based on the ENV environment variable
 if os.getenv('ENV') == 'local':
