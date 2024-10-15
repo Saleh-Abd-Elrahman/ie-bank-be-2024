@@ -7,13 +7,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
-    dbuser=os.getenv('DBUSER'),
-    dbpass=os.getenv('DBPASS'),
-    dbhost=os.getenv('DBHOST'),
-    dbname=os.getenv('DBNAME')
-    )
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://iebankdbadmin:IE.Bank.DB.Admin.Pa$$@sabdelrahman-dbrsv-dev/sabdelrahman-be-dev'
 
 # Select environment based on the ENV environment variable
 if os.getenv('ENV') == 'local':
