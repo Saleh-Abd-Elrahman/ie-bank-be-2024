@@ -7,15 +7,12 @@ import os
 
 app = Flask(__name__)
 
-
-SQLALCHEMY_DATABASE_URI = 'postgresql://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
     dbuser=os.getenv('DBUSER'),
     dbpass=os.getenv('DBPASS'),
     dbhost=os.getenv('DBHOST'),
     dbname=os.getenv('DBNAME')
     )
-    
-app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
 
 # Select environment based on the ENV environment variable
