@@ -8,6 +8,14 @@ import os
 app = Flask(__name__)
 
 
+dbuser=os.getenv('DBUSER')
+dbpass=os.getenv('DBPASS')
+dbhost=os.getenv('DBHOST')
+dbname=os.getenv('DBNAME')
+    
+SQLALCHEMY_DATABASE_URI = f'postgresql://{dbuser}:{dbpass}@{dbhost}/{dbname}?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+
 
 # Select environment based on the ENV environment variable
 if os.getenv('ENV') == 'local':
